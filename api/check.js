@@ -9,6 +9,7 @@ export default async function handler(req, res) {
     const host = normalizeHost(req.query.host);
     if (!allowed.has(host)) return res.status(400).json({ error: 'Dominio fuera del catálogo' });
     const result = await probeHost(host);
+    if (result.kind === 'unknown') console.warn('Inconclusive transport check', host, result.http.error, result.https.error);
     res.setHeader('Cache-Control', 'public, max-age=300');
     return res.status(200).json(result);
   } catch (error) {
