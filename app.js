@@ -11,7 +11,7 @@ function cell(text, className = '') {
 
 function updateStats() {
   const all = [...results.values()];
-  document.querySelector('#count-checked').firstChild.textContent = String(all.length);
+  document.querySelector('#count-checked').firstChild.textContent = String(all.filter(x => x.kind !== 'request-error').length);
   for (const kind of ['redirect', 'mixed', 'nohttps']) {
     document.querySelector(`#count-${kind}`).textContent = String(all.filter(x => x.kind === kind).length);
   }
@@ -52,7 +52,7 @@ async function check(host, button) {
     if (!response.ok) throw new Error(data.error || 'Error de comprobación');
     results.set(host, data);
   } catch (error) {
-    results.set(host, { kind: 'unknown', label: 'No concluyente', detail: error.message });
+    results.set(host, { kind: 'request-error', label: 'Consulta no disponible', detail: 'El navegador no pudo consultar el servicio. Revisa sus extensiones o prueba otro navegador.' });
   }
   render();
 }
