@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111922">
+  <meta name="description" content="Observatorio de transporte web para dominios peruanos. Comprueba HTTP, redirección a HTTPS y respuesta TLS sin pruebas invasivas.">
+  <title>Escanea la web · Observatorio .pe</title>
+  <link rel="stylesheet" href="/app.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="nav wrap">
+      <a class="brand" href="/" aria-label="Escanea la web, inicio"><span class="brand-mark">⌁</span><span>OBSERVATORIO <strong>.PE</strong></span></a>
+      <a class="nav-link" href="https://github.com/HenryTene/escanea-la-web-nullrack" target="_blank" rel="noopener noreferrer">Código fuente ↗</a>
+    </div>
+    <div class="hero wrap">
+      <div class="eyebrow"><span class="live-dot"></span> PROYECTO DE LA ARENA · TRANSPORTE WEB</div>
+      <h1>Un enlace seguro<br><em>debería ser la norma.</em></h1>
+      <p>Comprobamos si la página principal de sitios peruanos responde por HTTPS y si su versión HTTP redirige hacia él. Cada resultado muestra lo observado, sin afirmar que un sitio entero sea seguro o inseguro.</p>
+      <div class="hero-actions"><button id="scan-all" class="primary">Comprobar catálogo <span>↗</span></button><a href="#metodo" class="secondary">Cómo funciona <span>↓</span></a></div>
+      <div class="hero-meta"><span><strong>10</strong> dominios del catálogo</span><span><strong>2</strong> solicitudes HEAD por dominio</span><span><strong>0</strong> pruebas invasivas</span></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="dashboard wrap" aria-labelledby="results-title">
+      <div class="section-head"><div><div class="kicker">01 / OBSERVATORIO</div><h2 id="results-title">Estado del catálogo</h2><p>La comprobación se realiza al solicitarla. No hay resultados precargados.</p></div><div id="last-check" class="timestamp">Aún sin comprobar</div></div>
+      <div class="stats" aria-live="polite">
+        <div class="stat"><span class="stat-label">Comprobados</span><strong id="count-checked">0<span class="denom"> / 10</span></strong></div>
+        <div class="stat"><span class="stat-label">Redirigen a HTTPS</span><strong id="count-redirect">0</strong></div>
+        <div class="stat"><span class="stat-label">HTTP sin redirección</span><strong id="count-mixed">0</strong></div>
+        <div class="stat"><span class="stat-label">HTTPS no verificado</span><strong id="count-nohttps">0</strong></div>
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>Sitio</th><th>Dominio</th><th>Resultado</th><th>Comprobación</th></tr></thead><tbody id="sites"><tr><td colspan="4" class="loading">Cargando catálogo…</td></tr></tbody></table></div>
+      <p class="table-note">“HTTPS no verificado” significa que falló esta comprobación de la página principal. No prueba que todas las páginas del dominio carezcan de HTTPS.</p>
+    </section>
+
+    <section class="method" id="metodo" aria-labelledby="method-title"><div class="wrap method-grid"><div><div class="kicker">02 / MÉTODO</div><h2 id="method-title">Dos preguntas.<br>Una respuesta honesta.</h2><p>El observatorio envía una solicitud <code>HEAD /</code> a HTTP y otra a HTTPS. No inicia sesión, no sigue enlaces ni intenta vulnerar el sitio.</p></div><div class="steps"><article><span class="step-no">01</span><div><h3>¿Responde HTTPS?</h3><p>Se comprueba la conexión TLS y la respuesta de la página principal. La validación normal del certificado permanece activada.</p></div></article><article><span class="step-no">02</span><div><h3>¿Qué hace HTTP?</h3><p>Se observa si la página principal redirige a una dirección <code>https://</code> o si sigue respondiendo por HTTP.</p></div></article><article><span class="step-no">03</span><div><h3>¿Qué podemos concluir?</h3><p>El informe distingue redirección, HTTP sin redirección, HTTPS disponible, HTTPS no verificado y resultados no concluyentes.</p></div></article></div></div></section>
+
+    <section class="limitations wrap"><div class="kicker">03 / ALCANCE</div><h2>Lo que esta señal significa</h2><div class="cards"><article><span class="card-icon">↗</span><h3>Una raíz, no todo el sitio</h3><p>Solo se observa <code>/</code>. Otras rutas, subdominios o servicios pueden comportarse de otro modo.</p></article><article><span class="card-icon">⌁</span><h3>Una medición puntual</h3><p>Redes, firewalls y configuraciones cambian. Cada resultado incluye la hora en que se obtuvo.</p></article><article><span class="card-icon">◇</span><h3>Transporte, no auditoría</h3><p>HTTPS protege el transporte. Esta herramienta no evalúa la seguridad de la aplicación ni busca vulnerabilidades.</p></article></div></section>
+  </main>
+  <footer><div class="wrap footer-inner"><span>ESCANEA LA WEB <span class="footer-dot">·</span> NULLRACK ARENA</span><span>Verifica. Explica. Mejora.</span></div></footer>
+</body>
+</html>
