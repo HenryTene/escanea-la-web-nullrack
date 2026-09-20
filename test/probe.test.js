@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { classify, isPublicIPv4, normalizeHost, probeHost } from '../lib/probe.js';
+import { classify, isPublicIPv4, normalizeHost, pinnedLookup, probeHost } from '../lib/probe.js';
 
 test('acepta solo dominios .pe bien formados', () => {
   assert.equal(normalizeHost(' WWW.GOB.PE. '), 'www.gob.pe');
@@ -34,4 +34,15 @@ test('usa la misma dirección pública para ambas comprobaciones', async () => {
   });
   assert.equal(result.kind, 'redirect');
   assert.deepEqual(calls.map(x => x.ip), ['8.8.8.8', '8.8.8.8']);
+});
+
+test('fija la dirección con la forma de DNS requerida por Node', () => {
+  const lookup = pinnedLookup('8.8.8.8');
+  lookup('test.pe', { all: true }, (_error, addresses) => {
+    assert.deepEqual(addresses, [{ address: '8.8.8.8', family: 4 }]);
+  });
+  lookup('test.pe', { all: false }, (_error, address, family) => {
+    assert.equal(address, '8.8.8.8');
+    assert.equal(family, 4);
+  });
 });
